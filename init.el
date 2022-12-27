@@ -19,6 +19,7 @@
 (add-hook 'clojurescript-mode-hook #'paredit-mode)
 (add-hook 'clojure-mode-hook #'paredit-mode)
 (add-hook 'fsharp-mode-hook #'lsp-mode)
+(add-hook 'tuareg-mode-hook #'lsp-mode)
 
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;; (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
