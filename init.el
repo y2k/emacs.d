@@ -10,6 +10,8 @@
 (global-set-key (kbd "M-,") 'complete-symbol)
 ;(setq mac-command-modifier 'meta)
 
+(global-set-key (kbd "M-1") 'treemacs)
+
 (require 'expand-region)
 (global-set-key (kbd "C-<up>") 'er/expand-region)
 
