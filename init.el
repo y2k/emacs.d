@@ -1,21 +1,14 @@
 (load "~/.emacs.d/sanemacs.el" nil t)
 (load "~/.emacs.d/doom-theme-config.el" nil t)
 
-;(require 'caml)
-;(add-to-list 'auto-mode-alist '("\\.ml\\'" . caml-mode))
-(require 'lsp-mode)
-;(require 'lsp-ocaml)
-;(add-to-list 'auto-mode-alist '("\\.ml\\'" . lsp-mode))
+(xterm-mouse-mode)
 
+(require 'lsp-mode)
 (global-set-key (kbd "M-,") 'complete-symbol)
 (global-set-key (kbd "M-1") 'treemacs)
 (global-set-key (kbd "C-l") 'lsp-format-buffer)
-
 (require 'expand-region)
 (global-set-key (kbd "C-<up>") 'er/expand-region)
-
-;(add-to-list 'auto-mode-alist '("\\.cljs\\'" . paredit-mode))
-;(add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode))
 
 (add-hook 'clojurescript-mode-hook #'paredit-mode)
 (add-hook 'clojure-mode-hook #'paredit-mode)
