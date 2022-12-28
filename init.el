@@ -8,9 +8,8 @@
 ;(add-to-list 'auto-mode-alist '("\\.ml\\'" . lsp-mode))
 
 (global-set-key (kbd "M-,") 'complete-symbol)
-;(setq mac-command-modifier 'meta)
-
 (global-set-key (kbd "M-1") 'treemacs)
+(global-set-key (kbd "C-l") 'lsp-format-buffer)
 
 (require 'expand-region)
 (global-set-key (kbd "C-<up>") 'er/expand-region)
