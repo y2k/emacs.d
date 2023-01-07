@@ -9,7 +9,7 @@
 (add-hook 'tuareg-mode-hook #'lsp-mode)
 
 (require 'lsp-mode)
-(global-set-key (kbd "M-,") 'complete-symbol)
+(global-set-key (kbd "M-/") 'complete-symbol)
 (global-set-key (kbd "M-1") 'treemacs)
 (global-set-key (kbd "C-l") 'lsp-format-buffer)
 
@@ -18,6 +18,17 @@
 (define-key input-decode-map "\e\eOB" [(meta down)])
 (global-set-key (kbd "M-<up>") 'er/expand-region)
 (global-set-key (kbd "M-<down>") 'er/contract-region)
+
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+)
+(global-set-key (kbd "C-d") 'duplicate-line)
 
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;; (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
