@@ -14,8 +14,7 @@
 (global-set-key (kbd "C-l") 'lsp-format-buffer)
 
 (require 'expand-region)
-(define-key input-decode-map "\e\eOA" [(meta up)])
-(define-key input-decode-map "\e\eOB" [(meta down)])
+(load "~/.emacs.d/local.init.el" nil t)
 (global-set-key (kbd "M-<up>") 'er/expand-region)
 (global-set-key (kbd "M-<down>") 'er/contract-region)
 
