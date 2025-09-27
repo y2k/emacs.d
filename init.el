@@ -2,6 +2,13 @@
 
 (load-theme 'tango-dark t)
 
+;; Установить недостающие из package-selected-packages при первом запуске
+(require 'seq)
+(unless (seq-every-p #'package-installed-p package-selected-packages)
+  (package-refresh-contents)
+  (package-install-selected-packages))
+
+;;
 (add-hook 'clojure-mode-hook #'paredit-mode)
 (add-hook 'tuareg-mode-hook #'lsp-mode)
 
