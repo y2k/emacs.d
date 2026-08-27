@@ -13,7 +13,6 @@
 (add-hook 'tuareg-mode-hook #'lsp-mode)
 
 (require 'lsp-mode)
+(define-key lsp-mode-map (kbd "C-l") #'lsp-format-buffer)
 (global-set-key (kbd "M-/") 'complete-symbol)
 (global-set-key (kbd "M-1") 'treemacs)
-(global-set-key (kbd "C-l") 'lsp-format-buffer)
-

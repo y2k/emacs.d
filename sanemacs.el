@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Sanemacs version 0.3.3 ;;;
+;;; Sanemacs version 0.4.0 ;;;
 ;;; https://sanemacs.com   ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -78,8 +78,6 @@
 
 ;;; Keybindings
 (global-set-key [mouse-3] 'mouse-popup-menubar-stuff)          ; Gives right-click a context menu
-(global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop) ; Indent selection by one tab length
-(global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)  ; De-indent selection by one tab length
 (global-set-key (kbd "M-DEL") 'sanemacs/backward-kill-word)    ; Kill word without copying it to your clipboard
 (global-set-key (kbd "C-DEL") 'sanemacs/backward-kill-word)    ; Kill word without copying it to your clipboard
 
