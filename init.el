@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (load "~/.emacs.d/sanemacs.el" nil t)
 
 (load-theme 'tango-dark t)
