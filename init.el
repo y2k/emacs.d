@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(load "~/.emacs.d/sanemacs.el" nil t)
+(load (locate-user-emacs-file "sanemacs.el") nil t)
 
 (load-theme 'tango-dark t)
 
@@ -10,11 +10,13 @@
   (package-refresh-contents)
   (package-install-selected-packages))
 
-;;
 (add-hook 'clojure-mode-hook #'paredit-mode)
-(add-hook 'tuareg-mode-hook #'lsp-mode)
+(add-hook 'tuareg-mode-hook #'lsp-deferred)
 
-(require 'lsp-mode)
-(define-key lsp-mode-map (kbd "C-l") #'lsp-format-buffer)
-(global-set-key (kbd "M-/") 'complete-symbol)
-(global-set-key (kbd "M-1") 'treemacs)
+(with-eval-after-load 'lsp-mode
+  (keymap-set lsp-mode-map "C-l" #'lsp-format-buffer))
+
+(keymap-global-set "M-/" #'complete-symbol)
+(with-eval-after-load 'treemacs
+  (treemacs-project-follow-mode 1))
+(keymap-global-set "M-1" #'treemacs)
