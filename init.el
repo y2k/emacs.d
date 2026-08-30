@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(load (locate-user-emacs-file "sanemacs.el") nil t)
+(load (locate-user-emacs-file "sanemacs/sanemacs.el") nil t)
 
 (load-theme 'tango-dark t)
 
