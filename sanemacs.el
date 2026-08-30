@@ -1,18 +1,9 @@
-;; -*- lexical-binding: t; -*-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- lexical-binding: t; -*-
 ;;; Sanemacs version 0.4.0 ;;;
 ;;; https://sanemacs.com   ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; For performance
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-
-
-(add-hook 'after-init-hook #'(lambda ()
-                               ;; restore after startup
-                               (setq gc-cons-threshold 800000)))
+(setq read-process-output-max (* 1024 1024)) ; 1 MB
 
 ;;; Disable menu-bar, tool-bar, and scroll-bar.
 (if (fboundp 'menu-bar-mode)
@@ -22,22 +13,11 @@
 (if (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1))
 
-;;; Fix this bug:
-;;; https://www.reddit.com/r/emacs/comments/cueoug/the_failed_to_download_gnu_archive_is_a_pretty/
-(defvar gnutls-algorithm-priority)
-(when (version< emacs-version "26.3")
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-
 ;;; Setup package.el
 (require 'package)
-(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(unless package--initialized (package-initialize))
 
 ;;; Setup use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
@@ -48,29 +28,21 @@
 (setq initial-scratch-message "")         ; Make *scratch* buffer blank
 (setq-default frame-title-format '("%b")) ; Make window title the buffer name
 (setq ring-bell-function 'ignore)         ; Disable bell sound
-(fset 'yes-or-no-p 'y-or-n-p)             ; y-or-n-p makes answering questions faster
+(setq use-short-answers t)                 ; Use y/n answers for confirmation prompts
 (show-paren-mode 1)                       ; Show closing parens by default
 (delete-selection-mode 1)                 ; Selected text will be overwritten when you start typing
 (global-auto-revert-mode t)               ; Auto-update buffer if file has changed on disk
 (use-package undo-tree                    ; Enable undo-tree, sane undo/redo behavior
+  :functions global-undo-tree-mode
   :init (global-undo-tree-mode)
   :config (setq-default undo-tree-auto-save-history nil))
-(add-hook 'before-save-hook
-	  'delete-trailing-whitespace)    ; Delete trailing whitespace on save
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook
+                      #'delete-trailing-whitespace nil t)))
 
 ;; Show line numbers in programming modes
-(add-hook 'prog-mode-hook
-          (if (or
-			   ; If linum-mode doesn't exist...
-			   (not (fboundp 'linum-mode))
-			   ; ...or Emacs has display-line-numbers-mode capability
-			   (and (fboundp 'display-line-numbers-mode) (display-graphic-p)))
-			  ; ...then use display-line-numbers-mode!
-              'display-line-numbers-mode
-			; Otherwise, use linum-mode
-            'linum-mode))
-
-(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (defun sanemacs/backward-kill-word ()
   (interactive "*")
@@ -79,7 +51,7 @@
   (delete-region (point) (mark)))
 
 ;;; Keybindings
-(global-set-key [mouse-3] 'mouse-popup-menubar-stuff)          ; Gives right-click a context menu
+(context-menu-mode 1)                                      ; Gives right-click a context menu
 (global-set-key (kbd "M-DEL") 'sanemacs/backward-kill-word)    ; Kill word without copying it to your clipboard
 (global-set-key (kbd "C-DEL") 'sanemacs/backward-kill-word)    ; Kill word without copying it to your clipboard
 
@@ -87,13 +59,19 @@
 ;;; This keeps your init.el neater and you have the option
 ;;; to gitignore your custom.el if you see fit.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(unless (file-exists-p custom-file)
-  (write-region "" nil custom-file))
 ;;; Load custom file. Don't hide errors. Hide success message
-(load custom-file nil t)
+(load custom-file 'noerror 'nomessage)
 
-;;; Put Emacs auto-save and backup files to /tmp/ or C:/Temp/
-(defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+;;; Put auto-save files in temp and backups under user-emacs-directory
+(defconst emacs-tmp-dir
+  (file-name-as-directory
+   (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory)))
+(make-directory emacs-tmp-dir t)
+(let ((backup-dir
+       (file-name-as-directory
+        (locate-user-emacs-file "backups/"))))
+  (make-directory backup-dir t)
+  (setq backup-directory-alist `((".*" . ,backup-dir))))
 (setq
    backup-by-copying t                                        ; Avoid symlinks
    delete-old-versions t
@@ -101,11 +79,7 @@
    kept-old-versions 2
    version-control t
    auto-save-list-file-prefix emacs-tmp-dir
-   auto-save-file-name-transforms `((".*" ,emacs-tmp-dir t))  ; Change autosave dir to tmp
-   backup-directory-alist `((".*" . ,emacs-tmp-dir)))
-
-;;; Lockfiles unfortunately cause more pain than benefit
-(setq create-lockfiles nil)
+   auto-save-file-name-transforms `((".*" ,emacs-tmp-dir t))) ; Change autosave dir to tmp
 
 ;;; Load wheatgrass as the default theme if one is not loaded already
 
