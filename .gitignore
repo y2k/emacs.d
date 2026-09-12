@@ -1,4 +1,5 @@
 /eln-cache/
+/backups/
 local.init.el
 elpa/
 .cache/
