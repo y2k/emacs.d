@@ -5,6 +5,7 @@
 (load-theme 'tango-dark t)
 
 (cua-mode 1)
+(fido-vertical-mode 1)
 
 ;; Установить недостающие из package-selected-packages при первом запуске
 (require 'seq)
