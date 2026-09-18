@@ -16,6 +16,11 @@
 (add-hook 'clojure-mode-hook #'paredit-mode)
 (add-hook 'tuareg-mode-hook #'lsp-deferred)
 
+(add-hook 'js-json-mode-hook
+          (lambda ()
+            (setq-local indent-tabs-mode nil
+                        js-indent-level 2)))
+
 (with-eval-after-load 'lsp-mode
   (keymap-set lsp-mode-map "C-l" #'lsp-format-buffer))
 
