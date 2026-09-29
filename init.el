@@ -25,6 +25,7 @@
   (keymap-set lsp-mode-map "C-l" #'lsp-format-buffer))
 
 (keymap-global-set "M-/" #'complete-symbol)
+(keymap-global-set "C-o" #'project-find-file)
 (with-eval-after-load 'treemacs
   (treemacs-project-follow-mode 1))
 (keymap-global-set "M-1" #'treemacs)
