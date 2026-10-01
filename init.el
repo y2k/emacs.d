@@ -14,6 +14,7 @@
   (package-install-selected-packages))
 
 (add-hook 'clojure-mode-hook #'paredit-mode)
+(setq lsp-enable-snippet nil)
 (add-hook 'tuareg-mode-hook #'lsp-deferred)
 
 (add-hook 'js-json-mode-hook
