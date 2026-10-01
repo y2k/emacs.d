@@ -7,6 +7,10 @@
 (cua-mode 1)
 (fido-vertical-mode 1)
 
+(with-eval-after-load 'undo-tree
+  (keymap-set undo-tree-map "C-z" #'undo-tree-undo)
+  (keymap-set undo-tree-map "C-S-z" #'undo-tree-redo))
+
 ;; Установить недостающие из package-selected-packages при первом запуске
 (require 'seq)
 (unless (seq-every-p #'package-installed-p package-selected-packages)
