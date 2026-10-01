@@ -6,6 +6,7 @@
 
 (cua-mode 1)
 (fido-vertical-mode 1)
+(xterm-mouse-mode 1)
 
 (with-eval-after-load 'undo-tree
   (keymap-set undo-tree-map "C-z" #'undo-tree-undo)
